@@ -7,7 +7,7 @@ const path = require('path');
 const API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjU5MWJmYTA5LTU2ZGQtNDk5Ny1iNDc0LTBkMGY0ZTc3ZjJhNiIsImlhdCI6MTczMjQ0MDcyNCwic3ViIjoiZGV2ZWxvcGVyLzY5MDNmMmIwLWFmM2ItZGI4My00OGUzLTE5MGRlMjMyZGNkMCIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTE1LjEzNy4xMi4xNCJdLCJ0eXBlIjoiY2xpZW50In1dfQ.A43FHVZRKyUs4Dr3B3R3d0oqRjszN5DnW5frXHXh1d-WtLfcS6aOAv-uW7on_5FpA8SBhiXknml41iwGpKYJsQ";
 
 // 서버 설정
-const PORT = 2000;
+const PORT = 80;
 
 // HTML 파일 경로
 const HTML_FILE = path.join(__dirname, '1ndex.html');
@@ -78,7 +78,7 @@ const server = http.createServer((req, res) => {
 });
 
 // 서버 실행
-server.listen(PORT, '192.168.219.100', () => {
+server.listen(PORT, () => {
   const timestamp = new Date().toISOString();
   console.log(`[${timestamp}] Server is running on all network interfaces (e.g., http://192.168.219.100:${PORT})`);
   console.log(`[${timestamp}] You can also try to access it using your local IP, for example: http://192.168.219.100:${PORT}`);
