@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>브롤 트로피 비교</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
+    h1 {
+      background-color: #0a74da;
+      color: white;
+      padding: 20px 0;
+    }
+    form {
+      margin: 20px auto;
+      padding: 10px;
+      max-width: 400px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    label, input, button {
+      display: block;
+      margin: 10px auto;
+      width: 80%;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #0a74da;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #084a9c;
+    }
+    #result {
+      margin: 20px auto;
+      padding: 10px;
+      max-width: 400px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>브롤 트로피 비교</h1>
+  <select id="tag" name="tag">
+	  <option value="#RCGUV2V">디디 #RCGUV2V</option>
+	  <option value="#GGCGJV0LG">스링 #GGCGJV0LG</option>
+	  <option value="#QR2UC0QV2">키위새 #QR2UC0QV2</option>
+    <option value="#2Q2CUQY0PC">플레이어 #2Q2CUQY0PC</option>
+    <option value="#2L9LGJRLQ8">swk #2L9LGJRLQ8</option>
+  </select>
+  <button name="copybtn" onclick="Copy();">복사</button>
+  <form id="compare-form">
+    <label for="tag1">1번 태그:</label>
+    <input type="text" id="tag1" placeholder="기본: #RCGUV2V">
+    <label for="tag2">2번 태그:</label>
+    <input type="text" id="tag2" placeholder="기본: #2L9LGJRLQ8">
+    <button type="submit">비교</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    function Copy() {
+      var Select = document.getElementById("tag").value ;
+      // 임시 textarea 생성
+      const textarea = document.createElement('textarea');
+      textarea.value = Select; // textarea에 복사할 텍스트 삽입
+      document.body.appendChild(textarea); // textarea를 DOM에 추가
+      textarea.select(); // 텍스트 선택
+
+      try {
+          document.execCommand('copy'); // 복사 명령 실행
+          console.log('클립보드에 복사되었습니다.');
+      } catch (err) {
+          console.error('복사 실패:', err);
+      }
+
+      // textarea 제거
+      document.body.removeChild(textarea);
+    }
+
+
+
+    const fetchPlayerData = async (playerTag) => {
+      const url = `/player/${playerTag}`;
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+        return await response.json();
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    };
+
+    document.getElementById('compare-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const defaultTag1 = "RCGUV2V";
+      const defaultTag2 = "2L9LGJRLQ8";
+
+      const tag1 = document.getElementById('tag1').value.trim() || defaultTag1;
+      const tag2 = document.getElementById('tag2').value.trim() || defaultTag2;
+      const resultDiv = document.getElementById('result');
+
+      resultDiv.textContent = "Loading...";
+      const player1 = await fetchPlayerData(tag1.replace('#', ''));
+      const player2 = await fetchPlayerData(tag2.replace('#', ''));
+
+      if (player1 && player2) {
+        const createPlayerInfo = (player) => `
+          <p><strong>${player.name}</strong> 님 정보:</p>
+          <ul>
+            <li>트로피: ${player.trophies}</li>
+            <li>최고 트로피: ${player.highestTrophies}</li>
+            <li>클럽 이름: ${player.club?.name || '소속 없음'}</li>
+            <li>브롤러 수: ${player.brawlers.length}</li>
+          </ul>
+        `;
+
+        const trophyDifference = Math.abs(player1.trophies - player2.trophies);
+
+        resultDiv.innerHTML = `
+          ${createPlayerInfo(player1)}
+          ${createPlayerInfo(player2)}
+          <p>
+            ${
+              player1.trophies > player2.trophies
+                ? `<strong>${player1.name}</strong>가 "${trophyDifference}" 만큼 <strong>${player2.name}</strong>보다 많습니다.`
+                : player1.trophies < player2.trophies
+                ? `<strong>${player2.name}</strong>가 "${trophyDifference}" 만큼 <strong>${player1.name}</strong>보다 많습니다.`
+                : "트로피가 같습니다."
+            }
+          </p>
+        `;
+      } else {
+        resultDiv.textContent = "Failed to fetch player data. Please check the tags.";
+      }
+    });
+  </script>
+</body>
+</html>
