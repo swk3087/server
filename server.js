@@ -80,6 +80,5 @@ const server = http.createServer((req, res) => {
 // 서버 실행
 server.listen(PORT, () => {
   const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}] Server is running on all network interfaces (e.g., http://192.168.219.100:${PORT})`);
-  console.log(`[${timestamp}] You can also try to access it using your local IP, for example: http://192.168.219.100:${PORT}`);
+  console.log("server start!");
 });
