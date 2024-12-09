@@ -12,7 +12,7 @@ WORKDIR /usr/src/app
 
 # Copying all the files from your file system to container file system
 
-COPY package.json /
+COPY package.json ./.
 
 #Install all dependencies
 
@@ -20,7 +20,6 @@ RUN npm install
 
 # Copy other files too
 
-COPY./.
 
 #Expose the port
 
