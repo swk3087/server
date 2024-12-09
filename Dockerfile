@@ -1,6 +1,6 @@
 #From base image node
 
-FROM node:16
+FROM node:22.8.0
 
 #Create app directory
 
