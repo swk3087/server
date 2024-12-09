@@ -12,8 +12,6 @@ WORKDIR /workspace
 
 #Install all dependencies
 
-RUN npm install
-
 # Copy other files too
 
 
