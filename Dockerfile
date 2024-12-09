@@ -4,15 +4,11 @@ FROM node:22.8.0
 
 #Create app directory
 
-RUN mkdir -p /usr/src/app
-
 #Set the /usr/src/app directory to WORKDIR
 
-WORKDIR /usr/src/app
+WORKDIR /workspace
 
 # Copying all the files from your file system to container file system
-
-COPY package.json ./.
 
 #Install all dependencies
 
