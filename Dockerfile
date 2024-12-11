@@ -11,7 +11,7 @@ WORKDIR /workspace
 # Copying all the files from your file system to container file system
 
 #Install all dependencies
-COPY ./
+COPY package.json ./.
 # Copy other files too
 
 
