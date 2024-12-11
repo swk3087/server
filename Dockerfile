@@ -11,7 +11,7 @@ WORKDIR /workspace
 # Copying all the files from your file system to container file system
 
 #Install all dependencies
-COPY package.json server.js 1ndex.html
+COPY package.json server.js 1ndex.html /workspace/
 # Copy other files too
 
 
